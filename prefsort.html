@@ -1,0 +1,269 @@
+<!doctype HTML>
+<html>
+    <head>
+        <title>PrefSort</title>
+        <style>
+            html {
+                padding: 0;
+                margin: 0;
+                position: absolute;
+                width: 100%;
+            }
+            body {
+                margin: 0 auto;
+                text-align: center;
+                width: 600px;
+            }
+            body > *:not(h1) {
+                height: 50%;
+            }
+            h1 {
+                text-align: center;
+            }
+            button {
+                box-sizing: border-box;
+                cursor: pointer;
+                font-size: 1.5em;
+                border-radius: 5px;
+                background-color: white;
+            }
+            #malimport, #sampleimport {
+                text-decoration: underline;
+                color: blue;
+                cursor: pointer;
+            }
+            #input {
+                box-sizing: border-box;
+                width: 600px;
+            }
+            #submit {
+                text-align: center;
+                width: 100%;
+            }
+            #left, #right {
+                width: 250px;
+                height: 100%;
+                font-size: 2em;
+                vertical-align: top;
+                min-height: 150px;
+                transition-duration: 0.2s;
+            }
+            #left {
+                float: left;
+            }
+            #right {
+                float: right;
+            }
+            #progress {
+                position: relative;
+                font-size: 15px;
+                background-color: gray;
+                margin-bottom: 5px;
+                border-radius: 4px;
+            }
+            #progress > #bar {
+                position: absolute;
+                top: 0;
+                left: 0;
+                height: 100%;
+                background-color: green;
+                transition-duration: 0.2s;
+                border-radius: 4px;
+            }
+            #progress > #number {
+                position: relative;
+            }
+            #vs {
+                font-size: 2em;
+            }
+            #setup {
+                text-align: left;
+            }
+            #sort {
+                display: none;
+            }
+            #results {
+                display: none;
+                text-align: left;
+            }
+        </style>
+        <script>
+            // https://en.wikipedia.org/wiki/Merge_sort#Top-down_implementation
+            // http://www.xomnom.com/fja.html
+
+            $ = document.querySelector.bind(document);
+            items = null;
+            worst = choices = 0;
+
+            function mergeSort(array, callback) {
+                splitMerge(array, 0, array.length, [], callback);
+            }
+
+            function splitMerge(array, start, end, buffer, callback) {
+                if (start + 2 > end) {
+                    typeof callback === 'function' && callback();
+                    return;
+                }
+                var middle = Math.floor((start + end) / 2);
+                splitMerge(array, start, middle, buffer, function() {
+                    splitMerge(array, middle, end, buffer, function() {
+                        merge(array, start, start, middle, start, end, buffer, function() {
+                            copy(buffer, start, end, array);
+                            typeof callback === 'function' && callback();
+                        });
+                    });
+                });
+            }
+
+            function merge(array, i, c1, c2, start, end, buffer, callback) {
+                var middle = Math.floor((start + end) / 2);
+                if (c1 < middle && c2 < end) {
+                    displayChoices(array, i, c1, c2, start, end, buffer, callback);
+                    return;
+                } else if (c1 >= middle) {
+                    buffer[i] = array[c2];
+                    c2++;
+                } else {
+                    buffer[i] = array[c1];
+                    c1++;
+                }
+                if (i+1 < end) {
+                    merge(array, i+1, c1, c2, start, end, buffer, callback);
+                } else {
+                    typeof callback === 'function' && callback()
+                };
+            }
+
+            function copy(buffer, start, end, array) {
+                for (var i = start; i < end; i++) array[i] = buffer[i];
+            }
+
+            function displayChoices(array, i, c1, c2, start, end, buffer, callback) {
+                var left = array[c1];
+                var right = array[c2];
+                $('#left').innerHTML = render(left);
+                $('#right').innerHTML = render(right);
+
+                $('#left').onclick = function() {
+                    incrementChoice();
+                    buffer[i] = array[c1];
+                    c1++;
+                    if (i+1 < end) {
+                        merge(array, i+1, c1, c2, start, end, buffer, callback);
+                    } else {
+                        typeof callback === 'function' && callback()
+                    };
+                }
+                $('#right').onclick = function() {
+                    incrementChoice();
+                    buffer[i] = array[c2];
+                    c2++;
+                    if (i+1 < end) {
+                        merge(array, i+1, c1, c2, start, end, buffer, callback);
+                    } else {
+                        typeof callback === 'function' && callback()
+                    };
+                }
+            }
+
+            function incrementChoice() {
+                choices++;
+                $('#progress > #number').innerHTML = Math.floor(choices/worst*100)+'%';
+                $('#progress > #bar').style.width = choices/worst*100 + '%';
+            }
+
+            function resetChoices() {
+                $('#left').innerHTML = '';
+                $('#left').onclick = function() {};
+                $('#right').innerHTML = '';
+                $('#right').onclick = function() {};
+            }
+
+            function displayResults() {
+                $('#progress > #number').innerHTML = '';
+                var o = '<h2>Results</h2><ol>';
+                for (var i = 0; i < items.length; i++) {
+                    o += '<li>'+render(items[i], true)+'</li>';
+                }
+                o += '</ol>'
+                $('#results').innerHTML = o;
+            }
+
+            function render(object, result) {
+                if (typeof object != 'object') return object.replace(/</g,'&lt;').replace(/>/g,'&gt;');
+                if (!object.image) return object.replace(/</g,'&lt;').replace(/>/g,'&gt;');
+                if (result) return object.text.replace(/</g,'&lt;').replace(/>/g,'&gt;');
+                o = '<img src="' + object.image.replace(/</g,'&lt;').replace(/>/g,'&gt;') + '"><div style="font-size: 0.5em">' + object.text.replace(/</g,'&lt;').replace(/>/g,'&gt;') + '</div>'
+                return o;
+            }
+
+            window.onload = function() {
+                window.addEventListener('keydown', function(event) {
+                    switch (event.keyCode) {
+                        case 37:
+                            $('#left').click();
+                            break;
+                        case 39:
+                            $('#right').click();
+                            break;
+                        default:
+                            break;
+                    }
+                })
+                $('#submit').addEventListener('click', function() {
+                    try {
+                        items = JSON.parse($('#input').value);
+                    } catch (e) {
+                        items = $('#input').value.split('\n');
+                    }
+
+                    // http://jsfromhell.com/array/shuffle
+                    for(var j, t, i = items.length; i; j = parseInt(Math.random() * i), t = items[--i], items[i] = items[j], items[j] = t);
+                    worst = Math.floor(items.length * Math.ceil(Math.log(items.length)/Math.LN2) - Math.pow(2, Math.ceil(Math.log(items.length)/Math.LN2)) + 1)
+                    $('#setup').style.display = 'none';
+                    $('#sort').style.display = 'block';
+
+                    mergeSort(items, function() {
+                        $('#sort').style.display = 'none';
+                        $('#results').style.display = 'block';
+                        resetChoices();
+                        displayResults();
+                    });
+                });
+                $('#malimport').addEventListener('click', function() {
+                    u = prompt('What\'s your MAL username?');
+                    var xhr = new XMLHttpRequest();
+                    xhr.open('GET', 'scripts/mal.php?user='+u);
+                    xhr.onreadystatechange = function(e) {
+                        if (this.readyState == 4 && this.status == 200) {
+                            $('#input').value = this.responseText;
+                            $('#submit').click();
+                        }
+                    };
+                    xhr.send();
+                });
+                $('#sampleimport').addEventListener('click', function() {
+                    $('#input').value = "1\n2\n3\n4\n5\n6\n7\n8\n9\n10";
+                });
+            }
+        </script>
+    </head>
+    <body>
+        <h1>PrefSort</h1>
+        <div id="setup">
+            <h2>Directions</h2>
+            Either input a JSON array or a list of items, with each item on its own line, and press Start to begin merge sorting by hand. Alternatively, click <span id="malimport">here</span> to import your MAL, or click <span id="sampleimport">here</span> to import sample data.
+            <textarea rows="20" cols="50" id="input"></textarea>
+            <button type="button" id="submit">Start</button>
+        </div>
+        <div id="sort">
+            <div id="progress">
+                <div id="bar"></div>
+                <span id="number">0%</span>
+            </div>
+            <button id="left"></button>
+            <span id="vs">vs</span>
+            <button id="right"></button></div>
+        <div id="results"></div>
+    </body>
+</html>

@@ -1,0 +1,198 @@
+<!doctype html>
+<html>
+<head>
+    <title>Pok&eacute;mon GO Evolution Optimization Calculator</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+        @media screen and (max-width: 40.5em) {
+            #results {
+                clear: both;
+            }
+        }
+        label {
+            display: inline-block;
+            float: left;
+            clear: left;
+            width: 150px;
+            text-align: left;
+        }
+        input {
+            display: inline-block;
+            float: left;
+            width: 4em;
+            margin-right: 1em;
+        }
+        hr {
+            clear: both;
+        }
+        #footer {
+            text-align: center;
+            font-size: .8em;
+            margin: 1em 0 0 0;
+        }
+    </style>
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-50076663-1', 'auto');
+        ga('send', 'pageview');
+
+        $ = document.querySelector.bind(document);
+
+        function update() {
+            var b = parseInt($('#bases').value, 10);
+            var e = parseInt($('#evos').value, 10);
+            var c = parseInt($('#candy').value, 10);
+            var r = parseInt($('#req').value, 10);
+            var E;
+
+            function pluralize(n, w) {
+                if (n == 1) return n + ' ' + w;
+                if (w === 'candy') return n + ' candies';
+                return n + ' ' + w + 's';
+            }
+
+            function generate() {
+                return pluralize(E,'evolution') + ', with ' + pluralize(b,'base') + ', ' + pluralize((e+E),'evo') + ', and ' + pluralize(c,'candy') + ' left over';
+            }
+
+            if (isNaN(b) || isNaN(e) || isNaN(c) || isNaN(r)) {
+                hide();
+                return false;
+            }
+
+            show();
+            var maxE = Math.floor(c / (r - 1));
+            var R = c % (r - 1);
+            if (R == 0 && c != 0) maxE--;
+            E = Math.min(maxE, b);
+            b -= E;
+            c -= ((r - 1) * E);
+            $('#s1').innerHTML = generate();
+            if (b > 0 && b + c + e >= r+1) {
+                $('#s3').style.display = 'block';
+                $('#s4').innerHTML = (r-c);
+                E++;
+                b--;
+                if (c + e < r) b -= r - c - e;
+                e -= Math.min(r - c, e);
+                c = 1;
+                $('#s5').innerHTML = generate();
+                var tE = Math.min(b, Math.floor((b + e) / r));
+                if (tE > 0) {
+                    $('#s2').style.display = 'none';
+                    $('#s6').style.display = 'block';
+                    if (tE == 1) $('#s7').innerHTML = tE + ' evolution';
+                    else $('#s7').innerHTML = tE + ' evolutions';
+                    $('#s8').innerHTML = (tE * (r - 1));
+                    b -= tE;
+                    if (e < tE * (r - 1)) {
+                        b -= tE * (r - 1) - e;
+                    }
+                    e -= Math.min(tE * (r - 1), e);
+                    E += tE;
+                    $('#s9').innerHTML = generate();
+                } else {
+                    $('#s2').style.display = 'block';
+                    $('#s6').style.display = 'none';
+                }
+            } else {
+                $('#s2').style.display = 'block';
+                $('#s3').style.display = 'none';
+            }
+        }
+
+        function addEventListeners(o, func) {
+            o.addEventListener('input', func);
+            o.addEventListener('propertychange', func);
+            o.addEventListener('paste', func);
+        }
+
+
+        function hide() {
+            $('#results').style.display = 'none';
+        }
+
+        function show() {
+            $('#results').style.display = 'block';
+        }
+
+        window.onload = function() {
+            addEventListeners($('#bases'), update);
+            addEventListeners($('#evos'), update);
+            addEventListeners($('#candy'), update);
+            addEventListeners($('#req'), update);
+            $('#gb').addEventListener('click', function() {
+                $('#glossary').style.display = $('#glossary').style.display == "none" ? "block" : "none";;
+            });
+            $('#rs1').addEventListener('click', function() {
+                var re = /(\d+) base[^\d]+(\d+) evo[^\d]+(\d+)/;
+                var r = re.exec($('#s1').innerHTML);
+                $('#bases').value = r[1];
+                $('#evos').value = r[2];
+                $('#candy').value = r[3];
+                update();
+            })
+            $('#rs5').addEventListener('click', function() {
+                var re = /(\d+) base[^\d]+(\d+) evo[^\d]+(\d+)/;
+                var r = re.exec($('#s5').innerHTML);
+                $('#bases').value = r[1];
+                $('#evos').value = r[2];
+                $('#candy').value = r[3];
+                update();
+            })
+            $('#rs9').addEventListener('click', function() {
+                var re = /(\d+) base[^\d]+(\d+) evo[^\d]+(\d+)/;
+                var r = re.exec($('#s9').innerHTML);
+                $('#bases').value = r[1];
+                $('#evos').value = r[2];
+                $('#candy').value = r[3];
+                update();
+            })
+        }
+    </script>
+</head>
+<body>
+    <h1>Pok&eacute;mon GO Evolution Optimization Calculator</h1>
+    <i>for making the most out of your lucky eggs</i>
+    <hr>
+    <p>
+        I've made up a few terms to make this calculator easier to understand. They were made up on the spot and if anyone has anything better, you can send me a message.
+    </p>
+    <p>
+        <i>Glossary:</i> <button id="gb">Toggle visibility</button>
+        <span id="glossary" style="display: none">
+            <i>Bases</i> are Pok&eacute;mon used to evolve. For example, if you wanted to optimize Pidgey evolutions you would put the number of Pidgeys you have here.<br>
+            <i>Evos</i> are evolved forms of bases that are expendable; they aren't combat-ready and are just fodder to be transferred. Continuing the previous example, you would include the number of Pidgeottos and Pidgeots that you don't use.<br>
+            <i>Candy total</i> is the current amount of candy available to the bases for evolution.<br>
+            <i>Candy requirement</i> is the amount of candy required to evolve a base. For Pidgey, this would be 12.
+        </span>
+    </p>
+    <label for="bases">Bases: </label><input type="number" id="bases" size="4">
+    <label for="evos">Evos: </label><input type="number" id="evos" size="4">
+    <label for="candy">Candy Total: </label><input type="number" id="candy" size="4">
+    <label for="req">Candy Requirement: </label><input type="number" id="req" size="4">
+    <p id="results" style="display: none">
+        <b>In your current state</b>, you are able to get <span id="s1"></span>. <button id="rs1">Recalculate</button>
+        <span id="s3" style="display: none"><b>To squeeze another evolution in</b>, you'll need to transfer <span id="s4"></span> Pok&eacute;mon in (starting with the evos), to result in <span id="s5"></span>. <button id="rs5">Recalculate</button>
+        <span id="s6"><b>In addition to this</b>, you can fit in another <span id="s7"></span> by tranferring <span id="s8"></span> additional Pok&eacute;mon (starting with the evos), resulting in <span id="s9"></span>. <button id="rs9">Recalculate</button></span>
+        </span>
+        <span id="s2" style="display: none"><i>No further optimizations are possible.</i></span>
+    </p>
+    <hr>
+    <p>
+        * Note: This calculator does not take evolution animation time or app restart time into account. Although you may have 70+ evolutions ready to go, fitting them all into one lucky egg session may be impossible.
+    </p>
+    <p>
+        * 2nd Note: To see if you get any more potential evolutions after transferring Pok&eacute;mon after evolution, use the Recalculate button. There are extremely rare edge cases where you can end up with an additional evolution by not transferring any bases early (consider having 13 Pidgeys, 0 Pidgeottos, 0 Pidgeots, and 132 candies), but it's a very minor difference that only matters if you have time to spare for transferring right after evolving.
+    </p>
+    <p>
+        * 3rd Note: This calculator also doesn't account for the option of continuing to evolve an evolved Pok&eacute;mon to get a 3rd evolution. From an efficiency standpoint, this is usually not efficient, as you can often get ~4.5 evolutions for the same amount of candy, but from a "gotta catch 'em all" standpoint, Pok&eacute;dex completion is kind of important. To manually calculate this in, just subtract (2nd evolution candy requirement - 1) from your total candy and make a mental note that you're getting an evolution and a Pok&eacute;dex bonus from this.
+    </p>
+    <div id="footer">created by <a href="https://3edgy6u.com">tesu</a></div>
+</body>
+</html>

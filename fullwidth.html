@@ -1,0 +1,153 @@
+<!doctype HTML>
+<html>
+	<head>
+		<title>fullwidther thingy</title>
+        <meta charset="utf-8"/>
+		<style>
+			html, body {
+				padding: 0;
+				margin: 0;
+			}
+			body {
+				font-size: 20pt;
+				margin: 0 1em 0 1em;
+			}
+			h1 {
+				text-align: center;
+			}
+			textarea {
+				font-size: 20pt;
+				width: 100%;
+				border-radius: 5px;
+				box-sizing: border-box;
+			}
+			#fullwidth {
+				margin: .5em 0 0 0;
+				min-height: 2em;
+				background-color: rgba(0,0,0,.1);
+				border-radius: 5px;
+				word-wrap: break-word;
+			}
+			#footer {
+				text-align: center;
+				font-size: .5em;
+				margin: 1em 0 0 0;
+
+			}
+		</style>
+		<script>
+			$ = document.querySelector.bind(document);
+
+			function fullWidthWhole(string) {
+				output = '';
+				for (var i = 0; i < string.length; i++) {
+					output += fullWidthSingle(string.charAt(i));
+				}
+				$("#fullwidth").innerHTML = output;
+				return;
+			}
+
+			function fullWidthSingle(c) {
+				switch (c) {
+					case 'a': return "&#65345;";
+					case 'b': return "&#65346;";
+					case 'c': return "&#65347;";
+					case 'd': return "&#65348;";
+					case 'e': return "&#65349;";
+					case 'f': return "&#65350;";
+					case 'g': return "&#65351;";
+					case 'h': return "&#65352;";
+					case 'i': return "&#65353;";
+					case 'j': return "&#65354;";
+					case 'k': return "&#65355;";
+					case 'l': return "&#65356;";
+					case 'm': return "&#65357;";
+					case 'n': return "&#65358;";
+					case 'o': return "&#65359;";
+					case 'p': return "&#65360;";
+					case 'q': return "&#65361;";
+					case 'r': return "&#65362;";
+					case 's': return "&#65363;";
+					case 't': return "&#65364;";
+					case 'u': return "&#65365;";
+					case 'v': return "&#65366;";
+					case 'w': return "&#65367;";
+					case 'x': return "&#65368;";
+					case 'y': return "&#65369;";
+					case 'z': return "&#65370;";
+					case 'A': return "&#65313;";
+					case 'B': return "&#65314;";
+					case 'C': return "&#65315;";
+					case 'D': return "&#65316;";
+					case 'E': return "&#65317;";
+					case 'F': return "&#65318;";
+					case 'G': return "&#65319;";
+					case 'H': return "&#65320;";
+					case 'I': return "&#65321;";
+					case 'J': return "&#65322;";
+					case 'K': return "&#65323;";
+					case 'L': return "&#65324;";
+					case 'M': return "&#65325;";
+					case 'N': return "&#65326;";
+					case 'O': return "&#65327;";
+					case 'P': return "&#65328;";
+					case 'Q': return "&#65329;";
+					case 'R': return "&#65330;";
+					case 'S': return "&#65331;";
+					case 'T': return "&#65332;";
+					case 'U': return "&#65333;";
+					case 'V': return "&#65334;";
+					case 'W': return "&#65335;";
+					case 'X': return "&#65336;";
+					case 'Y': return "&#65337;";
+					case 'Z': return "&#65338;";
+					case '0': return "&#65296;";
+					case '1': return "&#65297;";
+					case '2': return "&#65298;";
+					case '3': return "&#65299;";
+					case '4': return "&#65300;";
+					case '5': return "&#65301;";
+					case '6': return "&#65302;";
+					case '7': return "&#65303;";
+					case '8': return "&#65304;";
+					case '9': return "&#65305;";
+					case '!': return "&#65281;";
+					case '@': return "&#65312;";
+					case '#': return "&#65283;";
+					case '$': return "&#65284;";
+					case '%': return "&#65285;";
+					case '&': return "&#65286;";
+					case '*': return "&#65290;";
+					case '(': return "&#65288;";
+					case ')': return "&#65289;";
+					case '?': return "&#65311;";
+					case ';': return "&#65307;";
+					case '\'': return "&#65287;";
+					case ',': return "&#65292;";
+					case '.': return "&#65294;";
+					case '/': return "&#65295;";
+					case '<': return "&lt;";
+					case '>': return "&gt;";
+					case ' ': return "&#8195;";
+					case '-': return "&#65293;";
+					case '=': return "&#65309;";
+					case '+': return "&#65291;";
+					case '\n': return "<br />";
+					default: return c;
+				}
+			}
+			window.onload = function() {
+				$('textarea').addEventListener("input", function(){fullWidthWhole($('textarea').value)});
+				$('textarea').addEventListener("propertychange", function(){fullWidthWhole($('textarea').value)});
+				$('textarea').addEventListener("paste", function(){fullWidthWhole($('textarea').value)});
+			}
+		</script>
+	</head>
+	<body>
+		<h1>&#65350;&#65365;&#65356;&#65356;&#65367;&#65353;&#65348;&#65364;&#65352;&#65349;&#65362;&#8195;&#65364;&#65352;&#65353;&#65358;&#65351;&#65369;</h1>
+		<textarea placeholder="put words here"></textarea>
+		<div id="fullwidth"></div>
+		<div id="footer">&#65347;&#65362;&#65349;&#65345;&#65364;&#65349;&#65348;&#8195;&#65346;&#65369;&#8195;<a href="
+			https://3edgy6u.com">&#65354;&#65345;&#65363;&#65359;&#65358;&#8195;&#65356;&#65345;&#65357;</a></div>
+	</body>
+</html>

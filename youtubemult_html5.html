@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Youtube Multiplier w/ HTML5 Video Embeds</title>
+		<style>
+			body {
+				text-align: center;
+			}
+			input {
+				width: 350px;
+			}
+			input#vol {
+				width: 5em;
+			}
+		</style>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+		<script src="https://www.youtube.com/iframe_api"></script>
+		<script>
+			(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+			(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+			m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+			})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+			ga('create', 'UA-50076663-1', 'auto');
+			ga('send', 'pageview');
+
+			var tag = document.createElement('script');
+			tag.src = "https://www.youtube.com/iframe_api";
+			$("script")[0].parentNode.insertBefore(tag, $("script")[0]);
+			videos = [];
+			players = [];
+			delays = [];
+			ready = 0;
+			button = false;
+			function onYouTubeIframeAPIReady() { 
+				for (var i = 0; i < videos.length; i++) {
+					$("#videos").append("<span id=\"v" + (i+1) + "\"></span>");
+				}
+				for (var i = 0; i < videos.length; i++) {
+					players.push(new YT.Player('v'+(i+1), {
+						height: '270',
+						width: '420',
+						videoId: videos[i],
+						events: { 
+							'onReady': onPlayerReady,
+							'onStateChange': onPlayerStateChange
+						}
+					}));
+				}
+			}
+			function onPlayerReady(e) {
+				ready++;
+				if (ready == players.length) {
+					reset();
+				}
+			}
+			function onPlayerStateChange(e) {
+				if (button) return;
+				button = true;
+				switch (e.data) {
+					case YT.PlayerState.PAUSED:
+						for (var i = 0; i < players.length; i++) 
+							if (players[i].getPlayerState() == 1 || 
+								players[i].getPlayerState() == 3) players[i].pauseVideo();
+						break;
+					case YT.PlayerState.PLAYING:
+						for (var i = 0; i < players.length; i++) {
+							if (players[i].getPlayerState() == -1) {
+								players[i].setLoop(true);
+								players[i].seekTo(delays[i], true);
+								players[i].playVideo();
+							}
+							else if (players[i].getPlayerState() == 2) players[i].playVideo();
+						}
+						break;
+				}
+				button = false;
+			}
+			function getP(name) {
+    			name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+    			var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+        		results = regex.exec(location.search);
+    			return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+			}
+			function populate(name) {
+				var id = getP(name);
+				if (id !== undefined && id !== "") {
+					if (id.match(/^http/) || id.match(/^www/) || id.match(/^youtube/)) {
+						id = id.match(/watch\?v=(.+)$/) [1].replace(/#t=[^:]*/,"");
+					}
+					if (id.match(/:/)) {
+						delays.push(id.match(/:(.*)/)[1]);
+						id = id.replace(/:.*$/,"");
+					} else {
+						delays.push("0");
+					}
+					videos.push(id);
+				}
+			}
+			$(function() {
+				for (var i = 0; i < 2 || i < videos.length; i++)
+					$("button[id=add]").before("<label>Video " + (i+1) + ": <input name=\"id" + (i+1) + "\"/></label><br/>");
+				for (var i = 0; i < videos.length; i++) 
+					$("input[name=id"+(i+1)+"]").val(getP("id"+(i+1)));
+				$("button#reset").click(reset);
+				$("button#add").click(function() {
+					var i = 1;
+					while ($("input[name=id" + i + "]").length > 0) i++;
+					$("button[id=add]").before("<label>Video " + i + ": <input name=\"id" + i + "\"/></label><br/>");
+				});
+				$("input#vol").on("input", function() {
+					if (!isNaN($("#vol").val())) {
+						for (var i = 0; i < players.length; i++) 
+							players[i].setVolume($("#vol").val());
+					}
+				});
+			});
+			function reset() {
+				for (var i = 0; i < players.length; i++) {
+					players[i].seekTo(delays[i], true);
+					players[i].setLoop(true);
+					players[i].pauseVideo();
+				}
+			}
+			var j = 1;
+			while (getP("id"+j) !== "") {
+				populate("id"+j);
+				j++;
+			}
+		</script>
+	</head>
+	<body>
+		<h1>Youtube Multiplier w/ HTML5 Video Embeds</h1>
+		<button id="reset">Reset</button>
+		<input id="vol" placeholder="VOL[0-100]"/>
+		<div id="videos"></div>
+		<form method="get" action="youtubemult_html5.html">
+			To add a delay, simply append a :X to the YouTube video link/id, where X is the amount of seconds to advance the video by.<br />
+			<button id="add" type="button">Add Video</button><br/>
+			<input type="submit" />
+		</form>
+	</body>
+</html>

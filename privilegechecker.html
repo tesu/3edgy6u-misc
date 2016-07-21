@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>PRIVILEGE CHECKER</title>
+        <meta charset="utf-8"/>
+		<style>
+			html, body {
+				height: 100%;
+				width: 100%;
+				padding: 0;
+				margin: 0;
+				font-family: Arial;
+			}
+			#privchecker {
+				height: 100%;
+				width: 100%;
+			}
+			#privchecker p {
+				font-size: 6em;
+				position: relative;
+				top: 50%;
+				transform: translateY(-50%);
+				margin: 0;
+				text-align: center;
+			}
+			#privchecker p#counter {
+				vertical-align: bottom;
+				font-size: 1em;
+			}
+			input[type=checkbox] {
+				height: 6em;
+				width: 6em;
+			}
+		</style>
+		<script>
+            $ = document.querySelector.bind(document);
+
+            window.onload = function(){
+                if (localStorage.getItem('prvchk_date') != new Date().toDateString()) {
+                    localStorage.setItem('prvchk_date', new Date().toDateString());
+                    localStorage.setItem('prvchk_counter', 0);
+                }
+            	$("#num").innerHTML = localStorage.getItem('prvchk_counter');
+                $("#box").addEventListener("change", function(event){
+                    if (this.checked) {
+                    	localStorage.setItem('prvchk_counter', parseInt(localStorage.getItem('prvchk_counter'))+1);
+                    	$("#num").innerHTML = localStorage.getItem('prvchk_counter');
+                    }
+                });
+            }
+		</script>
+	</head>
+	<body>
+		<div id="privchecker">
+			<p><input type="checkbox" id="box" /><label for="box"> YOUR PRIVILEGE</label></p>
+			<p id="counter">You've checked your privilege <span id="num">0</span> times today.</p>
+		</div>
+	</body>
+</html>

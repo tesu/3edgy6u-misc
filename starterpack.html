@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Starter Pack Generator</title>
+		<style>
+			body {
+				text-align: center;
+			}
+			canvas {
+				border: solid 1px black;
+			}
+		</style>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+		<script>
+			(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+			(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+			m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+			})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+			ga('create', 'UA-50076663-1', 'auto');
+			ga('send', 'pageview');
+			
+			var MAXDIM = 200;
+			function insertImage(i, c, n) {
+				$(i).on("load", function() {
+					var x = i.width;
+					var y = i.height;
+					if (x > MAXDIM || y > MAXDIM) {
+						if (x > y) {
+							y = Math.trunc(MAXDIM * y / x);
+							x = MAXDIM;
+						} else {
+							x = Math.trunc(MAXDIM * x / y);
+							y = MAXDIM;
+						}
+					}
+
+					switch(n) {
+						case 1:
+							c.drawImage(i, 125-x/2, 145-y/2, x, y);
+							break;
+						case 2:
+							c.drawImage(i, 335-x/2, 145-y/2, x, y);
+							break;
+						case 3:
+							c.drawImage(i, 125-x/2, 355-y/2, x, y);
+							break;
+						case 4:
+							c.drawImage(i, 335-x/2, 355-y/2, x, y);
+							break;
+					}
+				})
+			}
+			$(function() {
+				$("#gen").click(function() {
+					var c = $("#s") [0].getContext("2d");
+					var i = new Array(new Image, new Image, new Image, new Image);
+					i[0].src = $("#i1").val();
+					i[1].src = $("#i2").val();
+					i[2].src = $("#i3").val();
+					i[3].src = $("#i4").val();
+
+					c.fillStyle = "rgb(255,255,255)";
+					c.fillRect(0,0,475,475);
+					c.fillStyle = "rgb(0,0,0)";
+					c.font = "20px Calibri";
+					c.fillText("The \"" + $("#name").val() + "\" starter pack",15,35);
+
+					insertImage(i[0], c, 1);
+					insertImage(i[1], c, 2);
+					insertImage(i[2], c, 3);
+					insertImage(i[3], c, 4);
+				});
+			});
+		</script>
+	</head>
+	<body>
+		<input id="name" placeholder="Name of starter pack" />
+		<input id="i1" placeholder="URL of image 1" />
+		<input id="i2" placeholder="URL of image 2" />
+		<input id="i3" placeholder="URL of image 3" />
+		<input id="i4" placeholder="URL of image 4" />
+		<br /><br />
+		<button id="gen" type="button">Generate</button>
+		<hr />
+		<canvas id="s" height="475px" width="475px"></canvas>
+	</body>
+</html>

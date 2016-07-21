@@ -1,0 +1,162 @@
+<!doctype HTML>
+<html>
+	<head>
+		<title>circleifier</title>
+        <meta charset="utf-8"/>
+		<style>
+			html, body {
+				padding: 0;
+				margin: 0;
+			}
+			body {
+				font-size: 20pt;
+				margin: 0 1em 0 1em;
+			}
+			h1 {
+				text-align: center;
+			}
+			textarea {
+				font-size: 20pt;
+				width: 100%;
+				border-radius: 5px;
+				box-sizing: border-box;
+			}
+			#fullwidth {
+				margin: .5em 0 0 0;
+				min-height: 2em;
+				background-color: rgba(0,0,0,.1);
+				border-radius: 5px;
+				word-wrap: break-word;
+			}
+			#footer {
+				text-align: center;
+				font-size: .5em;
+				margin: 1em 0 0 0;
+
+			}
+		</style>
+		<script>
+			$ = document.querySelector.bind(document);
+
+			function circleWhole(string) {
+				output = '';
+				for (var i = 0; i < string.length; i++) {
+					output += circleSingle(string.charAt(i));
+				}
+				$("#fullwidth").innerHTML = output;
+				return;
+			}
+
+			function circleSingle(c) {
+				switch (c) {
+					case 'a': return "&#9424;";
+					case 'b': return "&#9425;";
+					case 'c': return "&#9426;";
+					case 'd': return "&#9427;";
+					case 'e': return "&#9428;";
+					case 'f': return "&#9429;";
+					case 'g': return "&#9430;";
+					case 'h': return "&#9431;";
+					case 'i': return "&#9432;";
+					case 'j': return "&#9433;";
+					case 'k': return "&#9434;";
+					case 'l': return "&#9435;";
+					case 'm': return "&#9436;";
+					case 'n': return "&#9437;";
+					case 'o': return "&#9438;";
+					case 'p': return "&#9439;";
+					case 'q': return "&#9440;";
+					case 'r': return "&#9441;";
+					case 's': return "&#9442;";
+					case 't': return "&#9443;";
+					case 'u': return "&#9444;";
+					case 'v': return "&#9445;";
+					case 'w': return "&#9446;";
+					case 'x': return "&#9447;";
+					case 'y': return "&#9448;";
+					case 'z': return "&#9449;";
+					case 'A': return "&#9398;";
+					case 'B': return "&#9399;";
+					case 'C': return "&#9400;";
+					case 'D': return "&#9401;";
+					case 'E': return "&#9402;";
+					case 'F': return "&#9403;";
+					case 'G': return "&#9404;";
+					case 'H': return "&#9405;";
+					case 'I': return "&#9406;";
+					case 'J': return "&#9407;";
+					case 'K': return "&#9408;";
+					case 'L': return "&#9409;";
+					case 'M': return "&#9410;";
+					case 'N': return "&#9411;";
+					case 'O': return "&#9412;";
+					case 'P': return "&#9413;";
+					case 'Q': return "&#9414;";
+					case 'R': return "&#9415;";
+					case 'S': return "&#9416;";
+					case 'T': return "&#9417;";
+					case 'U': return "&#9418;";
+					case 'V': return "&#9419;";
+					case 'W': return "&#9420;";
+					case 'X': return "&#9421;";
+					case 'Y': return "&#9422;";
+					case 'Z': return "&#9423;";
+					case '0': return "&#9450;";
+					case '1': return "&#9312;";
+					case '2': return "&#9313;";
+					case '3': return "&#9314;";
+					case '4': return "&#9315;";
+					case '5': return "&#9316;";
+					case '6': return "&#9317;";
+					case '7': return "&#9318;";
+					case '8': return "&#9319;";
+					case '9': return "&#9320;";
+					case "\u2460": return "&#9461;";
+					case "\u2461": return "&#9462;";
+					case "\u2462": return "&#9463;";
+					case "\u2463": return "&#9464;";
+					case "\u2464": return "&#9465;";
+					case "\u2465": return "&#9466;";
+					case "\u2466": return "&#9467;";
+					case "\u2467": return "&#9468;";
+					case "\u2468": return "&#9469;";
+					case '!': return "&#65281;";
+					case '@': return "&#65312;";
+					case '#': return "&#65283;";
+					case '$': return "&#65284;";
+					case '%': return "&#65285;";
+					case '&': return "&#65286;";
+					case '*': return "&#65290;";
+					case '(': return "&#65288;";
+					case ')': return "&#65289;";
+					case '?': return "&#65311;";
+					case ';': return "&#65307;";
+					case '\'': return "&#65287;";
+					case ',': return "&#65292;";
+					case '.': return "&#65294;";
+					case '/': return "&#65295;";
+					case '<': return "&lt;";
+					case '>': return "&gt;";
+					case ' ': return "&#8195;";
+					case '-': return "&#65293;";
+					case '=': return "&#65309;";
+					case '+': return "&#65291;";
+					case '\n': return "<br />";
+					default: return c;
+				}
+			}
+			window.onload = function() {
+				$('textarea').addEventListener("input", function(){circleWhole($('textarea').value)});
+				$('textarea').addEventListener("propertychange", function(){circleWhole($('textarea').value)});
+				$('textarea').addEventListener("paste", function(){circleWhole($('textarea').value)});
+			}
+		</script>
+	</head>
+	<body>
+		<h1>&#9426;&#9432;&#9441;&#9426;&#9435;&#9428;&#9432;&#9429;&#9432;&#9428;&#9441;</h1>
+		<textarea placeholder="put words here"></textarea>
+		<div id="fullwidth"></div>
+		<div id="footer">&#9426;&#9441;&#9428;&#9424;&#9443;&#9428;&#9427;&#8195;&#9425;&#9448;&#8195;<a href="
+			https://3edgy6u.com">&#9433;&#9424;&#9442;&#9438;&#9437;&#8195;&#9435;&#9424;&#9436;</a></div>
+	</body>
+</html>

@@ -1,0 +1,158 @@
+<!doctype HTML>
+<html>
+	<head>
+		<title>rotator</title>
+        <meta charset="utf-8"/>
+		<style>
+			html, body {
+				padding: 0;
+				margin: 0;
+			}
+			body {
+				font-size: 20pt;
+				margin: 0 1em 0 1em;
+			}
+			h1 {
+				text-align: center;
+			}
+			textarea {
+				font-size: 20pt;
+				width: 100%;
+				border-radius: 5px;
+				box-sizing: border-box;
+			}
+			#fullwidth {
+				margin: .5em 0 0 0;
+				min-height: 2em;
+				background-color: rgba(0,0,0,.1);
+				border-radius: 5px;
+				word-wrap: break-word;
+			}
+			#footer {
+				text-align: center;
+				font-size: .5em;
+				margin: 1em 0 0 0;
+
+			}
+		</style>
+		<script>
+            $ = document.querySelector.bind(document);
+
+			function shiftBy(string, c) {
+				output = '';
+				for (var i = 0; i < string.length; i++) {
+					output += idLetter(add(letterId(string.charAt(i)),c));
+				}
+				$("#shift"+c).innerHTML = c + ": " + output;
+				return;
+			}
+
+			function letterId(c) {
+				switch (c) {
+					case 'a': return 0;
+					case 'b': return 1;
+					case 'c': return 2;
+					case 'd': return 3;
+					case 'e': return 4;
+					case 'f': return 5;
+					case 'g': return 6;
+					case 'h': return 7;
+					case 'i': return 8;
+					case 'j': return 9;
+					case 'k': return 10;
+					case 'l': return 11;
+					case 'm': return 12;
+					case 'n': return 13;
+					case 'o': return 14;
+					case 'p': return 15;
+					case 'q': return 16;
+					case 'r': return 17;
+					case 's': return 18;
+					case 't': return 19;
+					case 'u': return 20;
+					case 'v': return 21;
+					case 'w': return 22;
+					case 'x': return 23;
+					case 'y': return 24;
+					case 'z': return 25;
+					default: return c;
+				}
+			}
+
+			function idLetter(c) {
+				switch (c) {
+					case 0: return 'a';
+					case 1: return 'b';
+					case 2: return 'c';
+					case 3: return 'd';
+					case 4: return 'e';
+					case 5: return 'f';
+					case 6: return 'g';
+					case 7: return 'h';
+					case 8: return 'i';
+					case 9: return 'j';
+					case 10: return 'k';
+					case 11: return 'l';
+					case 12: return 'm';
+					case 13: return 'n';
+					case 14: return 'o';
+					case 15: return 'p';
+					case 16: return 'q';
+					case 17: return 'r';
+					case 18: return 's';
+					case 19: return 't';
+					case 20: return 'u';
+					case 21: return 'v';
+					case 22: return 'w';
+					case 23: return 'x';
+					case 24: return 'y';
+					case 25: return 'z';
+					default: return c;
+				}
+			}
+
+			function add(a,b) {
+				if (a === parseInt(a)) {
+					return (a + b) % 26;
+				}
+				return a;
+			}
+
+			window.onload = function() {
+				$('textarea').addEventListener("input", function(){ for (var i = 1; i < 26; i++) { shiftBy($('textarea').value.toLowerCase(),i) } });
+				$('textarea').addEventListener("propertychange", function(){ for (var i = 1; i < 26; i++) { shiftBy($('textarea').value.toLowerCase(),i) } });
+				$('textarea').addEventListener("paste", function(){ for (var i = 1; i < 26; i++) { shiftBy($('textarea').value.toLowerCase(),i) } });
+			}
+		</script>
+	</head>
+	<body>
+		<h1>Rotator</h1>
+		<textarea placeholder="put words here"></textarea>
+		<div id="shift1"></div>
+		<div id="shift2"></div>
+		<div id="shift3"></div>
+		<div id="shift4"></div>
+		<div id="shift5"></div>
+		<div id="shift6"></div>
+		<div id="shift7"></div>
+		<div id="shift8"></div>
+		<div id="shift9"></div>
+		<div id="shift10"></div>
+		<div id="shift11"></div>
+		<div id="shift12"></div>
+		<div id="shift13"></div>
+		<div id="shift14"></div>
+		<div id="shift15"></div>
+		<div id="shift16"></div>
+		<div id="shift17"></div>
+		<div id="shift18"></div>
+		<div id="shift19"></div>
+		<div id="shift20"></div>
+		<div id="shift21"></div>
+		<div id="shift22"></div>
+		<div id="shift23"></div>
+		<div id="shift24"></div>
+		<div id="shift25"></div>
+		<div id="footer">perngrq ol <a href="https://3edgy6u.com">wnfba ynz</a></div>
+	</body>
+</html>

@@ -1,0 +1,61 @@
+<!doctype HTML>
+<html>
+	<head>
+		<title>polyatomics worksheet generator</title>
+        <meta charset="utf-8"/>
+		<style>
+			@media print {
+				button {
+					display: none;
+				}
+			}
+			body {
+				font-family: monospace;
+			}
+		</style>
+        <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+		<script>
+			var polyatomics = ['Ammonium', 'Acetate', 'Amide', 'Azide', 'Hydrazide', 'Benzoate', 'Bitartrate', 'Bromate', 'Perchlorate', 'Chlorate', 'Chlorite', 'Hypochlorite', 'Cyanate', 'Cyanide', 'Bicarbonate', 'Bisulfate', 'Bisulfite', 'Bisulfide', 'Hydroxide', 'Iodate', 'Triiodide', 'Nitrate', 'Nitrite', 'Permanganate', 'Dihydrogen Phosphate', 'Thiocyanate', 'Carbonate', 'Chromate', 'Dichromate', 'Hydrogen Phosphate', 'Peroxydisulfate', 'Pyrosulfate', 'Manganate', 'Oxalate', 'Peroxide', 'Phthalate', 'Metasilicate', 'Sulfate', 'Sulfite', 'Thiosulfate', 'Tartrate', 'Tetraborate', 'Aluminate', 'Arsenate', 'Arsenite', 'Borate', 'Citrate', 'Ferricyanide', 'Phosphate', 'Phosphite', 'Ferrocyanide', 'Silicate'];
+
+			function shuffleArray(array) {
+			    for (var i = array.length - 1; i > 0; i--) {
+			        var j = Math.floor(Math.random() * (i + 1));
+			        var temp = array[i];
+			        array[i] = array[j];
+			        array[j] = temp;
+			    }
+			    return array;
+			}
+
+			function initPage() {
+				var html = "<table style='width: 100%'><tr style='width: 100%'><td style='width: 50%'>";
+				shuffleArray(polyatomics);
+				for (var i = 0; i < polyatomics.length; i++) {
+					html += polyatomics[i] + "<br />";
+					if (i == polyatomics.length / 2) {
+						html += "</td><td style='width: '50%'>";
+					}
+				}
+				html += "</td></tr></table>";
+
+				$('div').html(html);
+				return;
+			}
+
+			function getSolutions() {
+				$("div").html($("div").html().replace('Ammonium', 'NH<sub>4</sub><sup>+</sup>').replace('Acetate', 'C<sub>2</sub>H<sub>3</sub>O<sub>2</sub><sup>-</sup>').replace('Amide', 'NH<sub>2</sub><sup>-</sup>').replace('Azide', 'N<sub>3</sub><sup>-</sup>').replace('Hydrazide', 'N<sub>2</sub>H<sub>3</sub><sup>-</sup>').replace('Benzoate', 'C<sub>7</sub>H<sub>5</sub>O<sub>2</sub><sup>-</sup>').replace('Bitartrate', 'HC<sub>4</sub>H<sub>4</sub>O<sub>6</sub><sup>-</sup>').replace('Bromate', 'BrO<sub>3</sub><sup>-</sup>').replace('Perchlorate', 'ClO<sub>4</sub><sup>-</sup>').replace('Chlorate', 'ClO<sub>3</sub><sup>-</sup>').replace('Chlorite', 'ClO<sub>2</sub><sup>-</sup>').replace('Hypochlorite', 'ClO<sup>-</sup>').replace('Cyanate', 'OCN<sup>-</sup>').replace('Cyanide', 'CN<sup>-</sup>').replace('Bicarbonate', 'HCO<sub>3</sub><sup>-</sup>').replace('Bisulfate', 'HSO<sub>4</sub><sup>-</sup>').replace('Bisulfite', 'HSO<sub>3</sub><sup>-</sup>').replace('Bisulfide', 'HS<sup>-</sup>').replace('Hydroxide', 'OH<sup>-</sup>').replace('Iodate', 'IO<sub>3</sub><sup>-</sup>').replace('Triiodide', 'I<sub>3</sub><sup>-</sup>').replace('Nitrate', 'NO<sub>3</sub><sup>-</sup>').replace('Nitrite', 'NO<sub>2</sub><sup>-</sup>').replace('Permanganate', 'MnO<sub>4</sub><sup>-</sup>').replace('Dihydrogen Phosphate', 'H<sub>2</sub>PO<sub>4</sub><sup>-</sup>').replace('Thiocyanate', 'SCN<sup>-</sup>').replace('Carbonate', 'CO<sub>3</sub><sup>-2</sup>').replace('Chromate', 'CrO<sub>4</sub><sup>-2</sup>').replace('Dichromate', 'Cr<sub>2</sub>O<sub>7</sub><sup>-2</sup>').replace('Hydrogen Phosphate', 'HPO<sub>4</sub><sup>-2</sup>').replace('Peroxydisulfate', 'S<sub>2</sub>O<sub>8</sub><sup>-2</sup>').replace('Pyrosulfate', 'S<sub>2</sub>O<sub>7</sub><sup>-2</sup>').replace('Manganate', 'MnO<sub>3</sub><sup>-2</sup>').replace('Oxalate', 'C<sub>2</sub>O<sub>4</sub><sup>-2</sup>').replace('Peroxide', 'O<sub>2</sub><sup>-2</sup>').replace('Phthalate', 'C<sub>8</sub>H<sub>4</sub>O<sub>4</sub><sup>-2</sup>').replace('Metasilicate', 'SiO<sub>3</sub><sup>-2</sup>').replace('Sulfate', 'SO<sub>4</sub><sup>-2</sup>').replace('Sulfite', 'SO<sub>3</sub><sup>-2</sup>').replace('Thiosulfate', 'S<sub>2</sub>O<sub>3</sub><sup>-2</sup>').replace('Tartrate', 'C<sub>4</sub>H<sub>4</sub>O<sub>6</sub><sup>-2</sup>').replace('Tetraborate', 'B<sub>4</sub>O<sub>7</sub><sup>-2</sup>').replace('Aluminate', 'AlO<sub>3</sub><sup>-3</sup>').replace('Arsenate', 'AsO<sub>4</sub><sup>-3</sup>').replace('Arsenite', 'AsO<sub>3</sub><sup>-3</sup>').replace('Borate', 'BO<sub>3</sub><sup>-3</sup>').replace('Citrate', 'C<sub>6</sub>H<sub>5</sub>O<sub>7</sub><sup>-3</sup>').replace('Ferricyanide', 'Fe(CN)<sub>6</sub><sup>-3</sup>').replace('Phosphate', 'PO<sub>4</sub><sup>-3</sup>').replace('Phosphite', 'PO<sub>3</sub><sup>-3</sup>').replace('Ferrocyanide', 'Fe(CN)<sub>6</sub><sup>-4</sup>').replace('Silicate', 'SiO<sub>4</sub><sup>-4</sup>'));
+				return;
+			}
+
+			$(function(){
+				initPage();
+				$('#reload').on('click', initPage);
+				$('#solutions').on('click', getSolutions);
+			})
+		</script>
+	</head>
+	<body>
+		<button id="reload">RELOAD</button> <button id="solutions">SOLUTIONS</button>
+		<div style="width: 100%"></div>
+	</body>
+</html>
