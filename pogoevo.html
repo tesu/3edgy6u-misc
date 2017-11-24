@@ -33,14 +33,6 @@
         }
     </style>
     <script>
-        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-        ga('create', 'UA-50076663-1', 'auto');
-        ga('send', 'pageview');
-
         $ = document.querySelector.bind(document);
 
         function update() {
@@ -194,5 +186,12 @@
         * 3rd Note: This calculator also doesn't account for the option of continuing to evolve an evolved Pok&eacute;mon to get a 3rd evolution. From an efficiency standpoint, this is usually not efficient, as you can often get ~4.5 evolutions for the same amount of candy, but from a "gotta catch 'em all" standpoint, Pok&eacute;dex completion is kind of important. To manually calculate this in, just subtract (2nd evolution candy requirement - 1) from your total candy and make a mental note that you're getting an evolution and a Pok&eacute;dex bonus from this.
     </p>
     <div id="footer">created by <a href="https://3edgy6u.com">tesu</a></div>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-50076663-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-50076663-1');
+    </script>
 </body>
 </html>

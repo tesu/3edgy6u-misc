@@ -28,13 +28,6 @@
         </style>
         <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
         <script>
-            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-            ga('create', 'UA-50076663-1', 'auto');
-            ga('send', 'pageview');
             function calculateDefenses() {
                 var defenses = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1];
                 var defenseObj = {'type': [$('#type1')[0].selectedIndex], '4': [], '2': [], '1': [], '0.5': [], '0.25': [], '0': []};
@@ -357,5 +350,12 @@
         images "borrowed" from bulbapedia<br />
         note: in gen II-V steel had dark and ghost resistances<br />
         note: in gen I bug had poison weakness, poison had bug weakness, psychic had ghost immunity, and fire did not have ice resistance
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-50076663-1"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'UA-50076663-1');
+        </script>
     </body>
 </html>
