@@ -233,7 +233,7 @@
                 $('#malimport').addEventListener('click', function() {
                     u = prompt('What\'s your MAL username?');
                     var xhr = new XMLHttpRequest();
-                    xhr.open('GET', 'scripts/mal.php?user='+u);
+                    xhr.open('GET', '/py/mal?user='+u);
                     xhr.onreadystatechange = function(e) {
                         if (this.readyState == 4 && this.status == 200) {
                             $('#input').value = this.responseText;
