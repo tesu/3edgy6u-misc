@@ -27,7 +27,7 @@
                 border-radius: 5px;
                 background-color: white;
             }
-            #malimport, #sampleimport {
+            #anilistimport, #sampleimport {
                 text-decoration: underline;
                 color: blue;
                 cursor: pointer;
@@ -231,7 +231,7 @@
                     });
                 });
                 $('#anilistimport').addEventListener('click', function() {
-                    u = prompt('What\'s your MAL username?');
+                    u = prompt('What\'s your AniList username?');
                     var xhr = new XMLHttpRequest();
                     xhr.open('GET', '/py/anilist?user='+u);
                     xhr.onreadystatechange = function(e) {
