@@ -230,10 +230,10 @@
                         displayResults();
                     });
                 });
-                $('#malimport').addEventListener('click', function() {
+                $('#anilistimport').addEventListener('click', function() {
                     u = prompt('What\'s your MAL username?');
                     var xhr = new XMLHttpRequest();
-                    xhr.open('GET', '/py/mal?user='+u);
+                    xhr.open('GET', '/py/anilist?user='+u);
                     xhr.onreadystatechange = function(e) {
                         if (this.readyState == 4 && this.status == 200) {
                             $('#input').value = this.responseText;
@@ -252,7 +252,7 @@
         <h1>PrefSort</h1>
         <div id="setup">
             <h2>Directions</h2>
-            Either input a JSON array or a list of items, with each item on its own line, and press Start to begin merge sorting by hand. Alternatively, click <span id="malimport">here</span> to import your MAL, or click <span id="sampleimport">here</span> to import sample data.
+            Either input a JSON array or a list of items, with each item on its own line, and press Start to begin merge sorting by hand. Alternatively, click <span id="anilistimport">here</span> to import your MAL, or click <span id="sampleimport">here</span> to import sample data.
             <textarea rows="20" cols="50" id="input"></textarea>
             <button type="button" id="submit">Start</button>
         </div>
